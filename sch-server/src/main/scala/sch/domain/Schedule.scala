@@ -16,4 +16,8 @@ class Schedule() {
     timeSlots(timeAndPlace) += newClass
     scheduleHash += (newClass -> timeAndPlace)
   }
+
+//  def mutate(anotherSchedule: Schedule): Schedule = {
+//
+//  }
 }

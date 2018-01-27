@@ -10,7 +10,7 @@ trait ScheduleTrait {
   def addTeacher(teacher: Teacher): Unit
   def addClass(schClass: sch.domain.Class.Class): Unit
   def addCourse(course: Course): Unit
-  def getClassesByDay(weekDay: Int): List[sch.domain.Class.Class]
+  def getClassesByDay(weekDay: Int): List[sch.domain.Class.ClassResponse]
   def getAllClasses(): List[sch.domain.Class.Class]
   def getTeacherById(teacherId: String): Teacher
   def getGroupById(groupId: String): Group

@@ -12,10 +12,12 @@ object SchBoot extends App {
   val dbProvider = new AerospikeImpl()
   val httpRoutes = new HttpRoutes(dbProvider)
 
-  dbProvider.readClasses()
+  dbProvider.seedData()
   dbProvider.generateSchedules()
-  private val interface = "172.20.20.195"
+
+  private val interface = "localhost"
   private val port = 8080
+
   system.log.info("Server started at {}:{}", interface, port)
   Http().bindAndHandle(httpRoutes.routes, interface, port)
 }

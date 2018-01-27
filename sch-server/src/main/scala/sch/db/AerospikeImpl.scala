@@ -1,6 +1,7 @@
 package sch.db
 
 import com.aerospike.client.{AerospikeClient, Bin, Key, Value}
+import sch.domain.Class.ClassResponse
 import sch.domain.Course.Course
 import sch.domain.Group.Group
 import sch.domain.Room.Room
@@ -44,12 +45,13 @@ class AerospikeImpl extends ScheduleTrait {
     println("Course added")
   }
 
-  override def getClassesByDay(weekDay: Int): List[sch.domain.Class.Class] = {
+  override def getClassesByDay(weekDay: Int): List[sch.domain.Class.ClassResponse] = {
 
     generatedSchedules.head.timeSlots
       .zipWithIndex
-      .filter(x => isPreferedDay(x._2, weekDay))
-      .flatMap(x => x._1).toList
+      .filter(x => isPreferedDay(x._2, weekDay)).flatMap(x => {
+      x._1.map(z => ClassResponse(z.teacherId, z.courseId, z.hours, z.groupId, z.equiped, (x._2 % 11).toString))
+    }).toList
   }
 
   override def getAllClasses(): List[sch.domain.Class.Class] = {

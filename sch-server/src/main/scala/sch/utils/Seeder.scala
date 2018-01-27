@@ -15,7 +15,7 @@ object Seeder {
     var list: ListBuffer[sch.domain.Class.Class] = ListBuffer()
     for (x <- bufferedClasses.getLines()) {
       val s = x.split(";")
-      list += sch.domain.Class.Class(s(1), s(0), Random.nextInt(3) + 1, s(2))
+      list += sch.domain.Class.Class(s(1), s(0), Random.nextInt(3) + 1, s(2), Random.nextBoolean())
     }
     bufferedClasses.close()
     list.toList

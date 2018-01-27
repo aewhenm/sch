@@ -12,7 +12,11 @@ class HttpRoutes(dbProvider: ScheduleTrait)(implicit val actorMaterializer: Acto
 
   val routes: Route = {
     pathPrefix("api") {
-      path("teacher") {
+      path("healthcheck") {
+        get {
+          complete("OK")
+        }
+      } ~ path("teacher") {
         post {
           entity(as[Teacher]) { teacher =>
             dbProvider.addTeacher(teacher)
@@ -25,6 +29,8 @@ class HttpRoutes(dbProvider: ScheduleTrait)(implicit val actorMaterializer: Acto
             dbProvider.addCourse(course)
             complete("OK")
           }
+        } ~ parameters('course_id) { courseId =>
+          complete(dbProvider.getCourseById(courseId))
         }
       } ~ path("class") {
         post {
@@ -34,11 +40,23 @@ class HttpRoutes(dbProvider: ScheduleTrait)(implicit val actorMaterializer: Acto
           }
         }
       } ~ path("schedule") {
-        parameters('week_day) { weekDay =>
+        parameters('weekDay) { weekDay =>
           val availableClasses = dbProvider.getClassesByDay(weekDay.toInt)
           complete(availableClasses)
         } ~ get {
           complete(dbProvider.getAllClasses())
+        }
+      } ~ path("teacher") {
+        parameters('teacher_id) { teacherId =>
+          complete(dbProvider.getTeacherById(teacherId))
+        }
+      } ~ path("room") {
+        parameters('room_id) { roomId =>
+          complete(dbProvider.getRoomById(roomId))
+        }
+      } ~ path("group") {
+        parameters('group_id) { groupId =>
+          complete(dbProvider.getGroupById(groupId))
         }
       }
     }
