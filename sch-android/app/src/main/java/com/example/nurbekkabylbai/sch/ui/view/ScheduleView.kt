@@ -8,6 +8,7 @@ import android.util.TypedValue
 import android.view.View
 import android.view.WindowManager
 import com.example.nurbekkabylbai.sch.R
+import com.example.nurbekkabylbai.sch.db.entity.Class
 import com.example.nurbekkabylbai.sch.util.DimensionConverter
 
 /**
@@ -23,16 +24,18 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
     private lateinit var mNormalTimeTextPaint: Paint
     private lateinit var mNormalSeparatorPaint: Paint
     private lateinit var mDashedSeparatorPaint: Paint
+    private lateinit var mEventPaint: Paint
+
 
     // Attributes and default values
     private var mViewPaddingTop = toDp(20).toInt()
     private var mViewPaddingLeft = 0
     private val mTimeSeparatorStartX = toDp(50)
     private var mBackgroundColor = Color.rgb(232, 237, 240)
-    private var mSeparatorColor = Color.rgb(196, 206, 210)
     private var mTimeTextColor = Color.rgb(30, 40, 46)
     private var mNormalTimeSize = DimensionConverter.spToPx(10, context)
     private var mAccentTimeSize = DimensionConverter.spToPx(12, context)
+
 
     private val accentRect = Rect()
     private val normalRect = Rect()
@@ -45,6 +48,7 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
 
     private var m5minHeight = 0
 
+    private val mEventRect = Rect()
 
     init {
         (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.getMetrics(displayMetrics)
@@ -55,7 +59,6 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
         try {
             mBackgroundColor = a.getColor(R.styleable.ScheduleView_backgroundColor, mBackgroundColor)
             mTimeTextColor = a.getColor(R.styleable.ScheduleView_timeTextColor, mTimeTextColor)
-            mSeparatorColor = a.getColor(R.styleable.ScheduleView_separatorColor, mSeparatorColor)
             mNormalTimeSize = a.getDimensionPixelSize(R.styleable.ScheduleView_normalTimeSize, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, mNormalTimeSize, context.resources.displayMetrics).toInt()).toFloat()
             mAccentTimeSize = a.getDimensionPixelSize(R.styleable.ScheduleView_accentTimeSize, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, mAccentTimeSize, context.resources.displayMetrics).toInt()).toFloat()
         } finally {
@@ -65,6 +68,8 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
         initView()
     }
 
+    private val timeSlots = Array<ArrayList<Class>>(12) { ArrayList() }
+
     private fun initView() {
         // Background
         mBackgroundPaint = Paint()
@@ -72,9 +77,9 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
 
         // Separator lines
         mNormalSeparatorPaint = Paint()
-        mNormalSeparatorPaint.color = mSeparatorColor
+        mNormalSeparatorPaint.color = Color.BLACK
         mDashedSeparatorPaint = Paint()
-        mDashedSeparatorPaint.color = mSeparatorColor
+        mDashedSeparatorPaint.color = Color.BLACK
         mDashedSeparatorPaint.style = Paint.Style.STROKE
         mDashedSeparatorPaint.strokeWidth = toDp(1)
         mDashedSeparatorPaint.pathEffect = DashPathEffect(floatArrayOf(5f, 10f), 0f)
@@ -91,6 +96,11 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
         mNormalTimeTextPaint.textSize = mNormalTimeSize.toFloat()
         mNormalTimeTextPaint.getTextBounds("09:00", 0, "09:00".length, normalRect)
         mNormalTimeTextPaint.alpha = 100
+
+        mEventPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+        mEventPaint.color = Color.GREEN
+        mEventPaint.alpha = 1
+
 
         // Difference between normal and accented text
         mHeightDiff = toDp((accentRect.height() - normalRect.height()) / 2).toInt()
@@ -117,6 +127,9 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
         drawLinesAndAxes(canvas)
 
         drawTimes(canvas)
+
+        invalidateTimeSlots(ArrayList())
+        drawEvents(canvas)
     }
 
     private fun drawLinesAndAxes(canvas: Canvas) {
@@ -172,6 +185,49 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
 
     private fun timeFormat(hour: Int, minute: Int): String {
         return String.format("%2d:%02d", hour, minute)
+    }
+
+    private fun invalidateTimeSlots(list: ArrayList<Class>) {
+        val list = getTestClasses()
+
+        for(c in list) {
+            timeSlots[c.startHour.toInt()].add(c)
+        }
+    }
+
+    private fun drawEvents(canvas: Canvas) {
+        mEventRect.left = mTimeSeparatorStartX.toInt()
+        mEventRect.right = mScreenWidth
+
+        for(i in 0 until timeSlots.size) {
+            mEventRect.top = getEventTop(i)
+            mEventRect.bottom = getEventBottom(i)
+
+            mEventPaint.color = if(timeSlots[i].size > 0) Color.RED else Color.GREEN
+            mEventPaint.alpha = 170
+
+            canvas.drawRect(mEventRect, mEventPaint)
+        }
+    }
+
+    private fun getEventTop(index: Int): Int {
+        return mViewPaddingTop + m5minHeight*index + 1
+    }
+
+    private fun getEventBottom(index: Int): Int {
+        return mViewPaddingTop + m5minHeight*(index+1) - 1
+    }
+
+    private fun getTestClasses(): ArrayList<Class> {
+        val list = ArrayList<Class>()
+
+        list.add(Class(0,"0"))
+        list.add(Class(1,"0"))
+        list.add(Class(2,"1"))
+        list.add(Class(3,"2"))
+        list.add(Class(4,"2"))
+
+        return list
     }
 
 }

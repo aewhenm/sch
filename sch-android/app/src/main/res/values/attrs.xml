@@ -2,7 +2,6 @@
 <resources>
     <declare-styleable name="ScheduleView">
         <attr name="backgroundColor" format="color" />
-        <attr name="separatorColor" format="color" />
         <attr name="timeTextColor" format="color" />
         <attr name="normalTimeSize" format="dimension" />
         <attr name="accentTimeSize" format="dimension" />
