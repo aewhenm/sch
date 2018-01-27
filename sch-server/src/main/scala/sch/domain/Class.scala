@@ -8,5 +8,4 @@ object Class {
                     hours: String,
                     classType: String,
                     students: List[String])
-  // ¯\_(ツ)_/¯
 }
