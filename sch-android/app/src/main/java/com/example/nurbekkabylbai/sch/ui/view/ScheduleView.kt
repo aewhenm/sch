@@ -39,6 +39,9 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
     private var mHeightDiff = 0
     private var mWidthDiff = 0
 
+    private val mScreenWidth = displayMetrics.widthPixels.toFloat()
+    private val mScreenHeight = displayMetrics.heightPixels.toFloat()
+
     init {
 
         val a = context.theme.obtainStyledAttributes(attrs, R.styleable.ScheduleView, 0, 0)
@@ -92,6 +95,7 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         val widthMode = View.MeasureSpec.getMode(widthMeasureSpec)
         val widthSize = View.MeasureSpec.getSize(widthMeasureSpec)
         val heightMode = View.MeasureSpec.getMode(heightMeasureSpec)
@@ -104,5 +108,33 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
         super.onDraw(canvas)
         // Background
         canvas.drawRect(0f, 0f, canvas.width.toFloat(), canvas.height.toFloat(), mBackgroundPaint)
+
+//        canvas.drawRect(Rect(0,0,DimensionConverter.dpToPx(50, context).toInt(),DimensionConverter.dpToPx(50, context).toInt()), Paint())
+//        canvas.drawLine(0f,60f,100f,60f, Paint())
+
+//        drawLinesAndAxes(canvas)
+
     }
+
+    private fun drawLinesAndAxes(canvas: Canvas) {
+        val lineStartX = accentRect.width() + 2 * mViewPaddingLeft
+        val lineEndX = mScreenWidth
+
+        canvas.drawLine(lineStartX, mTextMarginTop*2, lineStartX, mScreenHeight, mNormalSeparatorPaint)
+        canvas.drawLine(lineStartX, mTextMarginTop*2, lineEndX, mTextMarginTop*2, mNormalSeparatorPaint)
+
+
+
+//        var yy = mTextMarginTop*2 + mTextMarginTop + accentRect.height()
+//        for (i in 1..157) {
+//            val path = Path()
+//            path.moveTo(lineStartX, yy)
+//            path.lineTo(lineEndX, yy)
+//            canvas.drawPath(path, mDashedSeparatorPaint)
+//
+//            yy += mTextMarginTop + accentRect.height()
+//        }
+
+    }
+
 }
