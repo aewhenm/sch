@@ -1,0 +1,6 @@
+0;368;25;equipped
+1;310;20;not_equiped
+2;441;30;equipped
+3;461;80;not_equiped
+4;431;26;not_equiped
+5;111;24;not_equiped
