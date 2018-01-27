@@ -33,6 +33,11 @@ class HttpRoutes(dbProvider: ScheduleTrait)(implicit val actorMaterializer: Acto
             complete("OK")
           }
         }
+      } ~ path("schedule") {
+        parameters('week_day) { weekDay =>
+          val availableClasses = dbProvider.getClassesByDay(weekDay.toInt)
+          complete(availableClasses)
+        }
       }
     }
   }

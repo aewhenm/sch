@@ -8,4 +8,5 @@ trait ScheduleTrait {
   def addTeacher(teacher: Teacher): Unit
   def addClass(schClass: sch.domain.Class.Class): Unit
   def addCourse(course: Course): Unit
+  def getClassesByDay(weekDay: Int): List[sch.domain.Class.Class]
 }

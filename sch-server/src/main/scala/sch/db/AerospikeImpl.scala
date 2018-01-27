@@ -1,8 +1,11 @@
 package sch.db
 
 import com.aerospike.client.{AerospikeClient, Bin, Key, Value}
-import sch.domain.{Class, Course, Teacher}
+import sch.domain.{Class, Course, Schedule, Teacher}
 import sch.services.ScheduleTrait
+import sch.utils.{Constants, Seeder}
+
+import scala.collection.mutable.ListBuffer
 
 class AerospikeImpl extends ScheduleTrait {
 
@@ -10,6 +13,9 @@ class AerospikeImpl extends ScheduleTrait {
   private val port = 3000
 
   val client = new AerospikeClient(interface, port)
+
+  var availableClasses: List[sch.domain.Class.Class] = List()
+  var generatedSchedules: ListBuffer[Schedule] = ListBuffer()
 
   override def addTeacher(teacher: Teacher.Teacher): Unit = {
 
@@ -36,4 +42,30 @@ class AerospikeImpl extends ScheduleTrait {
   override def addCourse(course: Course.Course): Unit = {
     println("Course added")
   }
+
+  override def getClassesByDay(weekDay: Int): List[sch.domain.Class.Class] = {
+    generatedSchedules.head.timeSlots
+      .zipWithIndex
+      .filter(x => isPreferedDay(x._2, weekDay))
+      .flatMap(x => x._1).toList
+  }
+
+  def isPreferedDay(currentDay: Int, desiredDay: Int): Boolean = {
+    (currentDay % (Constants.NUMBER_OF_ROOMS * Constants.AMOUNT_OF_HOURS)) % Constants.WORK_DAYS == (desiredDay + 1)
+  }
+  
+  def readClasses(): Unit = {
+
+    availableClasses = Seeder.readClasses()
+  }
+
+  def generateSchedules(): Unit = {
+
+    for (i <- 0 until 1) {
+      val schedule = new Schedule()
+      availableClasses.foreach(schedule.addClass)
+      generatedSchedules += schedule
+    }
+  }
+
 }

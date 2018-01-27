@@ -10,7 +10,10 @@ object SchBoot extends App {
   implicit val materializer: ActorMaterializer = ActorMaterializer()
 
   val dbProvider = new AerospikeImpl()
-
   val httpRoutes = new HttpRoutes(dbProvider)
-  Http().bindAndHandle(httpRoutes.routes, "localhost", 8080)
+
+  dbProvider.readClasses()
+  dbProvider.generateSchedules()
+
+  Http().bindAndHandle(httpRoutes.routes, "10.42.0.1", 8080)
 }

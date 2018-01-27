@@ -12,6 +12,8 @@ class Schedule() {
   var scheduleHash: Map[sch.domain.Class.Class, Int] = Map()
 
   def addClass(newClass: sch.domain.Class.Class): Unit = {
-    timeSlots(Random.nextInt(timeSlots.size)) += newClass
+    val timeAndPlace = Random.nextInt(timeSlots.size)
+    timeSlots(timeAndPlace) += newClass
+    scheduleHash += (newClass -> timeAndPlace)
   }
 }
