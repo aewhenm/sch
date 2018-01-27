@@ -1,15 +1,12 @@
 package sch.routes
 
-import akka.stream.ActorMaterializer
-import akka.actor.{ActorRef, ActorRefFactory}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
+import akka.stream.ActorMaterializer
 import sch.domain.Course.Course
 import sch.domain.Teacher.Teacher
 import sch.services.ScheduleTrait
 import sct.utils.JsonSupport
-import spray.json._
 
 class HttpRoutes(dbProvider: ScheduleTrait)(implicit val actorMaterializer: ActorMaterializer) extends JsonSupport {
 
@@ -39,5 +36,4 @@ class HttpRoutes(dbProvider: ScheduleTrait)(implicit val actorMaterializer: Acto
       }
     }
   }
-
 }
