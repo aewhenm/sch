@@ -41,13 +41,13 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
 
     init {
 
-        val a = context.theme.obtainStyledAttributes(attrs, R.styleable.JournalView, 0, 0)
+        val a = context.theme.obtainStyledAttributes(attrs, R.styleable.ScheduleView, 0, 0)
         try {
-            mBackgroundColor = a.getColor(R.styleable.JournalView_backgroundColor, mBackgroundColor)
-            mTimeTextColor = a.getColor(R.styleable.JournalView_timeTextColor, mTimeTextColor)
-            mSeparatorColor = a.getColor(R.styleable.JournalView_separatorColor, mSeparatorColor)
-            mNormalTimeSize = a.getDimensionPixelSize(R.styleable.JournalView_normalTimeSize, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, mNormalTimeSize, context.resources.displayMetrics).toInt()).toFloat()
-            mAccentTimeSize = a.getDimensionPixelSize(R.styleable.JournalView_accentTimeSize, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, mAccentTimeSize, context.resources.displayMetrics).toInt()).toFloat()
+            mBackgroundColor = a.getColor(R.styleable.ScheduleView_backgroundColor, mBackgroundColor)
+            mTimeTextColor = a.getColor(R.styleable.ScheduleView_timeTextColor, mTimeTextColor)
+            mSeparatorColor = a.getColor(R.styleable.ScheduleView_separatorColor, mSeparatorColor)
+            mNormalTimeSize = a.getDimensionPixelSize(R.styleable.ScheduleView_normalTimeSize, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, mNormalTimeSize, context.resources.displayMetrics).toInt()).toFloat()
+            mAccentTimeSize = a.getDimensionPixelSize(R.styleable.ScheduleView_accentTimeSize, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, mAccentTimeSize, context.resources.displayMetrics).toInt()).toFloat()
         } finally {
             a.recycle()
         }
@@ -75,8 +75,8 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
         mAccentTimeTextPaint.textSize = mAccentTimeSize
         mAccentTimeTextPaint.getTextBounds("09:00", 0, "09:00".length, accentRect)
 
-        mTextMarginTop = (accentRect.height() * 2.toFloat())/1.5f
-        mViewPaddingLeft = mTextMarginTop / 2
+        mTextMarginTop = DimensionConverter.dpToPx(accentRect.height(), context)
+        mViewPaddingLeft = DimensionConverter.dpToPx((mTextMarginTop/2).toInt(), context)
 
         // Time normal
         mNormalTimeTextPaint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -86,8 +86,8 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
         mNormalTimeTextPaint.alpha = 100
 
         // Difference between normal and accented text
-        mHeightDiff = (accentRect.height() - normalRect.height()) / 2
-        mWidthDiff = (accentRect.width() - normalRect.width()) / 2
+        mHeightDiff = DimensionConverter.dpToPx((accentRect.height() - normalRect.height()) / 2, context).toInt()
+        mWidthDiff = DimensionConverter.dpToPx((accentRect.width() - normalRect.width()) / 2, context).toInt()
 
     }
 
