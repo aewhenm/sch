@@ -61,7 +61,6 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
     private var mEventClickListener: EventClickListener? = null
     private var mGestureDetector: GestureDetectorCompat
 
-
     private val mGestureListener = object : GestureDetector.SimpleOnGestureListener() {
         override fun onSingleTapUp(e: MotionEvent): Boolean {
             if (mEventClickListener != null && !mEventList.isEmpty()) {
