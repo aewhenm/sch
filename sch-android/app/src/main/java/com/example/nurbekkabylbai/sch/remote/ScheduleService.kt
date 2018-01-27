@@ -12,4 +12,7 @@ interface ScheduleService {
 
     @GET("api/schedule")
     fun requestSchedule(@Query("weekDay") weekDay: Int): Call<List<Class>>
+
+    @GET("api/healthcheck")
+    fun healthcheck(): Call<String>
 }
