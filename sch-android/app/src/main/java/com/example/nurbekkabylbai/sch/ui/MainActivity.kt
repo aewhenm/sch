@@ -6,14 +6,17 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.example.nurbekkabylbai.sch.R
+import com.example.nurbekkabylbai.sch.ResponseListener
+import com.example.nurbekkabylbai.sch.db.entity.Class
 import java.util.*
 import devs.mulham.horizontalcalendar.HorizontalCalendar
 import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener
+import kotlinx.android.synthetic.main.activity_main.*
 
 /**
  * Created by Nurbek Kabylbay on 27.01.2018.
  */
-class MainActivity: AppCompatActivity() {
+class MainActivity: AppCompatActivity(), ResponseListener {
 
     private lateinit var viewModel: MainViewModel
 
@@ -22,8 +25,20 @@ class MainActivity: AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel.setListener(this)
 
         setupCalendar()
+    }
+
+    override fun onResponseReceived(list: List<Class>?) {
+        if(list == null)
+            return
+
+        val arrayList = ArrayList<Class>()
+        for(c in list)
+            arrayList.add(c)
+
+        schedule.updateAndInvalidate(arrayList)
     }
 
     private fun setupCalendar() {
@@ -46,9 +61,7 @@ class MainActivity: AppCompatActivity() {
             override fun onDateSelected(date: Calendar, position: Int) {
                 // TODO: make a request
                 val weekDay = date.get(Calendar.DAY_OF_WEEK)
-
-                val list = viewModel.getClasses(weekDay)
-
+                viewModel.requestClasses(weekDay)
                 Toast.makeText(baseContext, "A date selected", Toast.LENGTH_SHORT).show()
             }
         }

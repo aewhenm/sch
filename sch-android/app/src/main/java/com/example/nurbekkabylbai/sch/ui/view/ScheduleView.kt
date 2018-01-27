@@ -110,12 +110,17 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
         mViewPaddingLeft = (mTimeSeparatorStartX.toInt() - accentRect.width())/2
     }
 
+    fun updateAndInvalidate(list: ArrayList<Class>) {
+        invalidateTimeSlots(list)
+        this@ScheduleView.invalidate()
+    }
+
     private fun toDp(value: Int): Float {
         return DimensionConverter.dpToPx(value, context)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        mScreenHeight = 158 * mViewPaddingTop + 157 * accentRect.height() + mViewPaddingTop
+        mScreenHeight = 30 * mViewPaddingTop
         this.setMeasuredDimension(mScreenWidth, mScreenHeight)
     }
 
@@ -128,7 +133,6 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
 
         drawTimes(canvas)
 
-        invalidateTimeSlots(ArrayList())
         drawEvents(canvas)
     }
 
@@ -166,20 +170,21 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
             // 09:00 ACCENTED
             yy = start + hourCounter * m5minHeight + accentedTime
             canvas.drawText(timeFormat(i, 0), mViewPaddingLeft.toFloat(), yy.toFloat(), mAccentTimeTextPaint)
+            hourCounter ++
 
-            // 09:15
-            yy = start + (hourCounter + 3) * m5minHeight + normalTime
-            canvas.drawText(timeFormat(i, 15), (mWidthDiff + mViewPaddingLeft).toFloat(), yy.toFloat(), mNormalTimeTextPaint)
+//
+//            // 09:15
+//            yy = start + (hourCounter + 3) * m5minHeight + normalTime
+//            canvas.drawText(timeFormat(i, 15), (mWidthDiff + mViewPaddingLeft).toFloat(), yy.toFloat(), mNormalTimeTextPaint)
+//
+//            // 09:30 ACCENTED
+//            yy = start + (hourCounter + 6) * m5minHeight + accentedTime
+//            canvas.drawText(timeFormat(i, 30), mViewPaddingLeft.toFloat(), yy.toFloat(), mAccentTimeTextPaint)
+//
+//            // 09:45
+//            yy = start + (hourCounter + 9) * m5minHeight + normalTime
+//            canvas.drawText(timeFormat(i, 45), (mWidthDiff + mViewPaddingLeft).toFloat(), yy.toFloat(), mNormalTimeTextPaint)
 
-            // 09:30 ACCENTED
-            yy = start + (hourCounter + 6) * m5minHeight + accentedTime
-            canvas.drawText(timeFormat(i, 30), mViewPaddingLeft.toFloat(), yy.toFloat(), mAccentTimeTextPaint)
-
-            // 09:45
-            yy = start + (hourCounter + 9) * m5minHeight + normalTime
-            canvas.drawText(timeFormat(i, 45), (mWidthDiff + mViewPaddingLeft).toFloat(), yy.toFloat(), mNormalTimeTextPaint)
-
-            hourCounter += 12
         }
     }
 
@@ -188,7 +193,7 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
     }
 
     private fun invalidateTimeSlots(list: ArrayList<Class>) {
-        val list = getTestClasses()
+        val list = getTestClasses() //TODO: remove then
 
         for(c in list) {
             timeSlots[c.startHour.toInt()].add(c)

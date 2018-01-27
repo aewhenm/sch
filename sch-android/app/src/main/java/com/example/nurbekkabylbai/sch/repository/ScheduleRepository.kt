@@ -1,5 +1,6 @@
 package com.example.nurbekkabylbai.sch.repository
 
+import com.example.nurbekkabylbai.sch.ResponseListener
 import com.example.nurbekkabylbai.sch.db.entity.Class
 import com.example.nurbekkabylbai.sch.util.ApiUtils
 import retrofit2.Call
@@ -11,7 +12,14 @@ import retrofit2.Response
  */
 class ScheduleRepository {
 
-    fun requestSchedule(weekDay: Int): List<Class>? {
+    var listener: ResponseListener? = null
+
+    fun setResponseListener(listener: ResponseListener) {
+        this.listener = listener
+    }
+
+
+    fun requestSchedule(weekDay: Int) {
 
         val call = ApiUtils.getScheduleService().requestSchedule(weekDay)
 //        val call = ApiUtils.getScheduleService().healthcheck()
@@ -21,11 +29,10 @@ class ScheduleRepository {
                 System.out.println("lalka huialka: " + call)
             }
 
-            override fun onResponse(call: Call<List<Class>>?, response: Response<List<Class>>?) {
-                System.out.println("lalka:" + response?.body())
+            override fun onResponse(call: Call<List<Class>>?, response: Response<List<Class>>) {
+                System.out.println("lalka:" + response.body())
+                listener?.onResponseReceived(response.body())
             }
         })
-
-        return null
     }
 }
