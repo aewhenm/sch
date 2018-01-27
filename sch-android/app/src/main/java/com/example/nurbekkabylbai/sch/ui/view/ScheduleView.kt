@@ -137,7 +137,7 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
         mHeightDiff = toDp((mAccentRect.height() - mNormalRect.height()) / 2).toInt()
         mWidthDiff = toDp((mAccentRect.width() - mNormalRect.width()) / 2).toInt()
 
-        m5minHeight = mViewPaddingTop + mAccentRect.height()
+        m5minHeight = 2*(mViewPaddingTop + mAccentRect.height())
         mViewPaddingLeft = (mTimeSeparatorStartX.toInt() - mAccentRect.width())/2
     }
 
@@ -151,7 +151,7 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        mScreenHeight = 30 * mViewPaddingTop
+        mScreenHeight = 40 * mViewPaddingTop + mViewPaddingTop/2
         this.setMeasuredDimension(mScreenWidth, mScreenHeight)
     }
 
@@ -172,8 +172,6 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
         val lineStartX = mTimeSeparatorStartX
         val lineEndX = toDp(mScreenWidth)
 
-        val accentRectHeight = mAccentRect.height()
-
         canvas.drawLine(lineStartX, lineStartY, lineStartX, mScreenHeight.toFloat(), mNormalSeparatorPaint)
         canvas.drawLine(lineStartX, lineStartY, lineEndX, mViewPaddingTop.toFloat(), mNormalSeparatorPaint)
 
@@ -184,38 +182,16 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
             path.lineTo(lineEndX, yy)
             canvas.drawPath(path, mDashedSeparatorPaint)
 
-            yy += mViewPaddingTop + accentRectHeight
+            yy += m5minHeight.toFloat()
         }
-
     }
 
     private fun drawTimes(canvas: Canvas) {
-        val marginTop = (m5minHeight - mAccentRect.height()) / 2
-        val start = mViewPaddingTop
-        val accentedTime = marginTop + mAccentRect.height()
-        val normalTime = marginTop + mHeightDiff + mNormalRect.height()
-        var hourCounter = 0
-
-        var yy = 0
+        var yy = mViewPaddingTop + mAccentRect.height()/2
         for (i in 9..21) {
             // 09:00 ACCENTED
-            yy = start + hourCounter * m5minHeight + accentedTime
             canvas.drawText(timeFormat(i, 0), mViewPaddingLeft.toFloat(), yy.toFloat(), mAccentTimeTextPaint)
-            hourCounter ++
-
-//
-//            // 09:15
-//            yy = start + (hourCounter + 3) * m5minHeight + normalTime
-//            canvas.drawText(timeFormat(i, 15), (mWidthDiff + mViewPaddingLeft).toFloat(), yy.toFloat(), mNormalTimeTextPaint)
-//
-//            // 09:30 ACCENTED
-//            yy = start + (hourCounter + 6) * m5minHeight + accentedTime
-//            canvas.drawText(timeFormat(i, 30), mViewPaddingLeft.toFloat(), yy.toFloat(), mAccentTimeTextPaint)
-//
-//            // 09:45
-//            yy = start + (hourCounter + 9) * m5minHeight + normalTime
-//            canvas.drawText(timeFormat(i, 45), (mWidthDiff + mViewPaddingLeft).toFloat(), yy.toFloat(), mNormalTimeTextPaint)
-
+            yy += m5minHeight
         }
     }
 
