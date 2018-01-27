@@ -1,5 +1,7 @@
 package com.example.nurbekkabylbai.sch.ui
 
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
@@ -28,9 +30,13 @@ class MainActivity: AppCompatActivity() {
         endDate.add(Calendar.MONTH, 1)
 
         val horizontalCalendar = HorizontalCalendar.Builder(this, R.id.calendarView)
-                .range(startDate, endDate)
-                .datesNumberOnScreen(5)
-                .build()
+                        .range(startDate, endDate)
+                                .datesNumberOnScreen(7)   // Number of Dates cells shown on screen (default to 5).
+                                .configure()    // starts configuration.
+                                .textColor(Color.WHITE, Color.WHITE)    // default to (Color.LTGRAY, Color.WHITE).
+                                .selectorColor(Color.YELLOW)               // set selection indicator bar's color (default to colorAccent).
+                                .end()          // ends configuration.
+                                .build()
 
         horizontalCalendar.calendarListener = object : HorizontalCalendarListener() {
             override fun onDateSelected(date: Calendar, position: Int) {
