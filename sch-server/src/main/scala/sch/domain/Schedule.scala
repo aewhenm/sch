@@ -24,6 +24,8 @@ class Schedule() {
     val schedule = new Schedule()
 
     for ((classReference, i) <- scheduleHash) {
+
+      // Random mutation genome selector
       if (Random.nextInt(12) + 1 > 6) {
         schedule.scheduleHash += (classReference -> i)
         schedule.timeSlots(i) += classReference

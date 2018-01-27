@@ -31,6 +31,8 @@ class HttpRoutes(dbProvider: ScheduleTrait)(implicit val actorMaterializer: Acto
           }
         } ~ parameters('course_id) { courseId =>
           complete(dbProvider.getCourseById(courseId))
+        } ~ get {
+          complete(dbProvider.getAllCourses)
         }
       } ~ path("class") {
         post {
@@ -44,19 +46,25 @@ class HttpRoutes(dbProvider: ScheduleTrait)(implicit val actorMaterializer: Acto
           val availableClasses = dbProvider.getClassesByDay(weekDay.toInt)
           complete(availableClasses)
         } ~ get {
-          complete(dbProvider.getAllClasses())
+          complete(dbProvider.getAllClasses)
         }
       } ~ path("teacher") {
         parameters('teacher_id) { teacherId =>
           complete(dbProvider.getTeacherById(teacherId))
+        } ~ get {
+          complete(dbProvider.getAllTeachers)
         }
       } ~ path("room") {
         parameters('room_id) { roomId =>
           complete(dbProvider.getRoomById(roomId))
+        } ~ get {
+          complete(dbProvider.getAllRooms)
         }
       } ~ path("group") {
         parameters('group_id) { groupId =>
           complete(dbProvider.getGroupById(groupId))
+        } ~ get {
+          complete(dbProvider.getAllGroups)
         }
       }
     }

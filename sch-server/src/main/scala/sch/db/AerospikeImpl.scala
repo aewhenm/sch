@@ -54,7 +54,7 @@ class AerospikeImpl extends ScheduleTrait {
     }).toList
   }
 
-  override def getAllClasses(): List[sch.domain.Class.Class] = {
+  override def getAllClasses: List[sch.domain.Class.Class] = {
 
     generatedSchedules.head.timeSlots.filter(x => x.nonEmpty).flatten.toList
   }
@@ -101,4 +101,12 @@ class AerospikeImpl extends ScheduleTrait {
 
     availableCourses.find(x => x.courseId == courseId).head
   }
+
+  override def getAllTeachers: List[Teacher] = availableTeachers
+
+  override def getAllGroups: List[Group] = availableGroups
+
+  override def getAllRooms: List[Room] = availableRooms
+
+  override def getAllCourses: List[Course] = availableCourses
 }
