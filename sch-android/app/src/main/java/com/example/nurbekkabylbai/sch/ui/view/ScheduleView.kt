@@ -39,6 +39,8 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
     private var mNormalTimeSize = DimensionConverter.spToPx(10, context)
     private var mAccentTimeSize = DimensionConverter.spToPx(12, context)
 
+    private var mOkColor = Color.GREEN
+    private var mBadColor = Color.RED
 
     private val mAccentRect = Rect()
     private val mNormalRect = Rect()
@@ -90,6 +92,8 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
             mTimeTextColor = a.getColor(R.styleable.ScheduleView_timeTextColor, mTimeTextColor)
             mNormalTimeSize = a.getDimensionPixelSize(R.styleable.ScheduleView_normalTimeSize, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, mNormalTimeSize, context.resources.displayMetrics).toInt()).toFloat()
             mAccentTimeSize = a.getDimensionPixelSize(R.styleable.ScheduleView_accentTimeSize, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, mAccentTimeSize, context.resources.displayMetrics).toInt()).toFloat()
+            mOkColor = a.getColor(R.styleable.ScheduleView_okColor, mOkColor)
+            mBadColor = a.getColor(R.styleable.ScheduleView_badColor, mBadColor)
         } finally {
             a.recycle()
         }
@@ -217,7 +221,7 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
 
             mEventList.add(EventLayout(mEventRect, mTimeSlots[i]))
 
-            mEventPaint.color = if(mTimeSlots[i].size > 0) Color.RED else Color.GREEN
+            mEventPaint.color = if(mTimeSlots[i].size > 0) mBadColor else mOkColor
             mEventPaint.alpha = 170
 
             canvas.drawRect(mEventRect, mEventPaint)

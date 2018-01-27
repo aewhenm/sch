@@ -74,7 +74,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:accentTimeSize="16sp"
-            app:normalTimeSize="14sp"/>
+            app:normalTimeSize="14sp"
+            app:okColor="#54CC14"
+            app:badColor="#FF0000"/>
 
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>
