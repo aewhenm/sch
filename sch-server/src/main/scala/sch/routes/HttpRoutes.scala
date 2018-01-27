@@ -7,39 +7,32 @@ import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import sch.domain.Course.Course
 import sch.domain.Teacher.Teacher
+import sch.services.ScheduleTrait
 import sct.utils.JsonSupport
 import spray.json._
 
-class HttpRoutes()(implicit val actorMaterializer: ActorMaterializer) extends JsonSupport {
+class HttpRoutes(dbProvider: ScheduleTrait)(implicit val actorMaterializer: ActorMaterializer) extends JsonSupport {
 
   val routes: Route = {
     pathPrefix("api") {
       path("teacher") {
         post {
           entity(as[Teacher]) { teacher =>
-            println(teacher.id)
-            println(teacher.name)
-            println(teacher.surname)
+            dbProvider.addTeacher(teacher)
             complete("OK")
           }
         }
       } ~ path("course") {
         post {
           entity(as[Course]) { course =>
-            println(course.courseId)
-            println(course.hours)
-            println(course.students)
-            println(course.subject)
-            println(course.teacherId)
+            dbProvider.addCourse(course)
             complete("OK")
           }
         }
       } ~ path("class") {
         post {
           entity(as[sch.domain.Class.Class]) { classPayload =>
-            println(classPayload.courseId)
-            println(classPayload.hours)
-            println(classPayload.students)
+            dbProvider.addClass(classPayload)
             complete("OK")
           }
         }
