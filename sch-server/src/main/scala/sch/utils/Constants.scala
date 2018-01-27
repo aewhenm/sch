@@ -1,4 +1,4 @@
-package sct.utils
+package sch.utils
 
 object Constants {
   val START_TIME = 0 // 9:00

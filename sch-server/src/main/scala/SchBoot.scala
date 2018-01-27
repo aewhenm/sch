@@ -3,7 +3,6 @@ import akka.http.scaladsl.Http
 import akka.stream.ActorMaterializer
 import sch.db.AerospikeImpl
 import sch.routes.HttpRoutes
-import sct.utils.Seeder
 
 object SchBoot extends App {
 
@@ -13,7 +12,5 @@ object SchBoot extends App {
   val dbProvider = new AerospikeImpl()
 
   val httpRoutes = new HttpRoutes(dbProvider)
-  Seeder.readStudents()
-  Seeder.readCourses()
   Http().bindAndHandle(httpRoutes.routes, "localhost", 8080)
 }

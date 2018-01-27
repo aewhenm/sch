@@ -1,4 +1,4 @@
-package sct.utils
+package sch.utils
 
 import sch.domain.Course.Course
 import sch.domain.Group.Group

@@ -1,4 +1,4 @@
-package sct.utils
+package sch.utils
 
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import sch.domain.Class._

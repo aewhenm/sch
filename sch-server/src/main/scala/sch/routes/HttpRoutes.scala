@@ -6,7 +6,7 @@ import akka.stream.ActorMaterializer
 import sch.domain.Course.Course
 import sch.domain.Teacher.Teacher
 import sch.services.ScheduleTrait
-import sct.utils.JsonSupport
+import sch.utils.JsonSupport
 
 class HttpRoutes(dbProvider: ScheduleTrait)(implicit val actorMaterializer: ActorMaterializer) extends JsonSupport {
 
