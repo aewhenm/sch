@@ -2,5 +2,8 @@ package sch.domain
 
 object Teacher {
 
-  case class Teacher(name: String, surname: String, id: String)
+  case class Teacher(
+                      name: String,
+                      surname: String,
+                      id: String)
 }
