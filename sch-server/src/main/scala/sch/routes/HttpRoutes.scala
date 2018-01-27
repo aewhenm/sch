@@ -37,6 +37,8 @@ class HttpRoutes(dbProvider: ScheduleTrait)(implicit val actorMaterializer: Acto
         parameters('week_day) { weekDay =>
           val availableClasses = dbProvider.getClassesByDay(weekDay.toInt)
           complete(availableClasses)
+        } ~ get {
+          complete(dbProvider.getAllClasses())
         }
       }
     }

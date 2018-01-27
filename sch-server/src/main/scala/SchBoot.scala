@@ -14,6 +14,8 @@ object SchBoot extends App {
 
   dbProvider.readClasses()
   dbProvider.generateSchedules()
-
-  Http().bindAndHandle(httpRoutes.routes, "10.42.0.1", 8080)
+  private val interface = "172.20.20.195"
+  private val port = 8080
+  system.log.info("Server started at {}:{}", interface, port)
+  Http().bindAndHandle(httpRoutes.routes, interface, port)
 }

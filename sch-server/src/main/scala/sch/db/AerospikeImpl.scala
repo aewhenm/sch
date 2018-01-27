@@ -50,8 +50,12 @@ class AerospikeImpl extends ScheduleTrait {
       .flatMap(x => x._1).toList
   }
 
-  def isPreferedDay(currentDay: Int, desiredDay: Int): Boolean = {
-    (currentDay % (Constants.NUMBER_OF_ROOMS * Constants.AMOUNT_OF_HOURS)) % Constants.WORK_DAYS == (desiredDay + 1)
+  override def getAllClasses(): List[sch.domain.Class.Class] = {
+    generatedSchedules.head.timeSlots.filter(x => x.nonEmpty).flatten.toList
+  }
+
+  private def isPreferedDay(currentDay: Int, desiredDay: Int): Boolean = {
+    (currentDay % (Constants.NUMBER_OF_ROOMS * Constants.AMOUNT_OF_HOURS)) % Constants.WORK_DAYS == (desiredDay)
   }
   
   def readClasses(): Unit = {
@@ -67,5 +71,4 @@ class AerospikeImpl extends ScheduleTrait {
       generatedSchedules += schedule
     }
   }
-
 }
