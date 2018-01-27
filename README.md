@@ -11,7 +11,7 @@
 
 
 ```java
-                                 println("gl hf!")
+                                        println("gl hf!")
 ```
 > Android, Kotlin (ext:1.2.10)
 
@@ -19,4 +19,3 @@
 
 ## Задание: Оптимизация расписания
 > 
-
