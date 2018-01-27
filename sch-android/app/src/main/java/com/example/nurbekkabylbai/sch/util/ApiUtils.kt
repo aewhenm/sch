@@ -10,7 +10,7 @@ object ApiUtils {
 
     private var scheduleService: ScheduleService? = null
 
-    fun getScheduleService() : ScheduleService{
+    fun getScheduleService() : ScheduleService {
         return scheduleService ?: RetrofitClient.getClient().create(ScheduleService::class.java)
     }
 
