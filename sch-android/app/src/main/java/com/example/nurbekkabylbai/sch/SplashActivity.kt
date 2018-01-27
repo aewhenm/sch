@@ -1,12 +1,14 @@
 package com.example.nurbekkabylbai.sch
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.example.nurbekkabylbai.sch.ui.MainActivity
 
-class MainActivity : AppCompatActivity() {
+class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        startActivity(Intent(this, MainActivity::class.java))
     }
 }
