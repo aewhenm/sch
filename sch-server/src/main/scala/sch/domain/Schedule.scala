@@ -40,4 +40,8 @@ class Schedule() {
     }
     schedule
   }
+
+  /*def calculateFitnessRate(): Float = {
+
+  }*/
 }

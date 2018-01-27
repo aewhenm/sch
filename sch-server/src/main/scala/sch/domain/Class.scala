@@ -15,5 +15,6 @@ object Class {
                           hours: Int,
                           groupId: String,
                           isEquiped: Boolean,
+                          roomId: String,
                           startHour: String)
 }

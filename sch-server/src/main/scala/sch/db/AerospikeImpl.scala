@@ -50,7 +50,14 @@ class AerospikeImpl extends ScheduleTrait {
     generatedSchedules.head.timeSlots
       .zipWithIndex
       .filter(x => isPreferedDay(x._2, weekDay)).flatMap(x => {
-      x._1.map(z => ClassResponse(z.teacherId, z.courseId, z.hours, z.groupId, z.equiped, (x._2 % 11).toString))
+      x._1.map(z => ClassResponse(
+                            z.teacherId,
+                            z.courseId,
+                            z.hours,
+                            z.groupId,
+                            z.equiped,
+                            ((x._2 % (Constants.AMOUNT_OF_HOURS * availableRooms.size)) / 12).toString,
+                            (x._2 % 11).toString))
     }).toList
   }
 
