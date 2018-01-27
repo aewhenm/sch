@@ -51,7 +51,6 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
 
     private var m5minHeight = 0
 
-    private val mEventRect = Rect()
 
     private val mTimeSlots = Array<ArrayList<Class>>(12) { ArrayList() }
     private val mEventList = ArrayList<EventLayout>()
@@ -233,10 +232,10 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
     }
 
     private fun drawEvents(canvas: Canvas) {
-        mEventRect.left = mTimeSeparatorStartX.toInt()
-        mEventRect.right = mScreenWidth
-
         for(i in 0 until mTimeSlots.size) {
+            val mEventRect = Rect()
+            mEventRect.left = mTimeSeparatorStartX.toInt()
+            mEventRect.right = mScreenWidth
             mEventRect.top = getEventTop(i)
             mEventRect.bottom = getEventBottom(i)
 
