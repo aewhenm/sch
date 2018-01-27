@@ -2,9 +2,12 @@ package com.example.nurbekkabylbai.sch.ui.view
 
 import android.content.Context
 import android.graphics.*
+import android.support.v4.view.GestureDetectorCompat
 import android.util.AttributeSet
 import android.util.DisplayMetrics
 import android.util.TypedValue
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import com.example.nurbekkabylbai.sch.R
@@ -37,8 +40,8 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
     private var mAccentTimeSize = DimensionConverter.spToPx(12, context)
 
 
-    private val accentRect = Rect()
-    private val normalRect = Rect()
+    private val mAccentRect = Rect()
+    private val mNormalRect = Rect()
 
     private var mHeightDiff = 0
     private var mWidthDiff = 0
@@ -50,7 +53,34 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
 
     private val mEventRect = Rect()
 
+    private val mTimeSlots = Array<ArrayList<Class>>(12) { ArrayList() }
+    private val mEventList = ArrayList<EventLayout>()
+
+    // Event click handling
+    private var mEventClickListener: EventClickListener? = null
+    private var mGestureDetector: GestureDetectorCompat
+
+
+    private val mGestureListener = object : GestureDetector.SimpleOnGestureListener() {
+        override fun onSingleTapUp(e: MotionEvent): Boolean {
+            if (mEventClickListener != null && !mEventList.isEmpty()) {
+                for (event in mEventList) {
+                    if (e.x > event .rect.left && e.x < event .rect.right && e.y > event .rect.top && e.y < event .rect.bottom) {
+                        mEventClickListener?.onEventClicked(event.list)
+                        return super.onSingleTapConfirmed(e)
+                    }
+                }
+            }
+            return super.onSingleTapConfirmed(e)
+        }
+
+        override fun onDown(e: MotionEvent?): Boolean {
+            return true
+        }
+    }
+
     init {
+        mGestureDetector = GestureDetectorCompat(context, mGestureListener)
         (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.getMetrics(displayMetrics)
         mScreenWidth = displayMetrics.widthPixels
         mScreenHeight = displayMetrics.heightPixels
@@ -68,7 +98,9 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
         initView()
     }
 
-    private val timeSlots = Array<ArrayList<Class>>(12) { ArrayList() }
+    fun setListener(listener: EventClickListener) {
+        this.mEventClickListener = listener
+    }
 
     private fun initView() {
         // Background
@@ -88,13 +120,13 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
         mAccentTimeTextPaint = Paint(Paint.ANTI_ALIAS_FLAG)
         mAccentTimeTextPaint.color = this.mTimeTextColor
         mAccentTimeTextPaint.textSize = mAccentTimeSize.toFloat()
-        mAccentTimeTextPaint.getTextBounds("09:00", 0, "09:00".length, accentRect)
+        mAccentTimeTextPaint.getTextBounds("09:00", 0, "09:00".length, mAccentRect)
 
         // Time normal
         mNormalTimeTextPaint = Paint(Paint.ANTI_ALIAS_FLAG)
         mNormalTimeTextPaint.color = this.mTimeTextColor
         mNormalTimeTextPaint.textSize = mNormalTimeSize.toFloat()
-        mNormalTimeTextPaint.getTextBounds("09:00", 0, "09:00".length, normalRect)
+        mNormalTimeTextPaint.getTextBounds("09:00", 0, "09:00".length, mNormalRect)
         mNormalTimeTextPaint.alpha = 100
 
         mEventPaint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -103,11 +135,11 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
 
 
         // Difference between normal and accented text
-        mHeightDiff = toDp((accentRect.height() - normalRect.height()) / 2).toInt()
-        mWidthDiff = toDp((accentRect.width() - normalRect.width()) / 2).toInt()
+        mHeightDiff = toDp((mAccentRect.height() - mNormalRect.height()) / 2).toInt()
+        mWidthDiff = toDp((mAccentRect.width() - mNormalRect.width()) / 2).toInt()
 
-        m5minHeight = mViewPaddingTop + accentRect.height()
-        mViewPaddingLeft = (mTimeSeparatorStartX.toInt() - accentRect.width())/2
+        m5minHeight = mViewPaddingTop + mAccentRect.height()
+        mViewPaddingLeft = (mTimeSeparatorStartX.toInt() - mAccentRect.width())/2
     }
 
     fun updateAndInvalidate(list: ArrayList<Class>) {
@@ -141,7 +173,7 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
         val lineStartX = mTimeSeparatorStartX
         val lineEndX = toDp(mScreenWidth)
 
-        val accentRectHeight = accentRect.height()
+        val accentRectHeight = mAccentRect.height()
 
         canvas.drawLine(lineStartX, lineStartY, lineStartX, mScreenHeight.toFloat(), mNormalSeparatorPaint)
         canvas.drawLine(lineStartX, lineStartY, lineEndX, mViewPaddingTop.toFloat(), mNormalSeparatorPaint)
@@ -159,10 +191,10 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
     }
 
     private fun drawTimes(canvas: Canvas) {
-        val marginTop = (m5minHeight - accentRect.height()) / 2
+        val marginTop = (m5minHeight - mAccentRect.height()) / 2
         val start = mViewPaddingTop
-        val accentedTime = marginTop + accentRect.height()
-        val normalTime = marginTop + mHeightDiff + normalRect.height()
+        val accentedTime = marginTop + mAccentRect.height()
+        val normalTime = marginTop + mHeightDiff + mNormalRect.height()
         var hourCounter = 0
 
         var yy = 0
@@ -196,7 +228,7 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
         val list = getTestClasses() //TODO: remove then
 
         for(c in list) {
-            timeSlots[c.startHour.toInt()].add(c)
+            mTimeSlots[c.startHour.toInt()].add(c)
         }
     }
 
@@ -204,11 +236,13 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
         mEventRect.left = mTimeSeparatorStartX.toInt()
         mEventRect.right = mScreenWidth
 
-        for(i in 0 until timeSlots.size) {
+        for(i in 0 until mTimeSlots.size) {
             mEventRect.top = getEventTop(i)
             mEventRect.bottom = getEventBottom(i)
 
-            mEventPaint.color = if(timeSlots[i].size > 0) Color.RED else Color.GREEN
+            mEventList.add(EventLayout(mEventRect, mTimeSlots[i]))
+
+            mEventPaint.color = if(mTimeSlots[i].size > 0) Color.RED else Color.GREEN
             mEventPaint.alpha = 170
 
             canvas.drawRect(mEventRect, mEventPaint)
@@ -235,4 +269,7 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
         return list
     }
 
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        return mGestureDetector.onTouchEvent(event)
+    }
 }

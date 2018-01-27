@@ -8,15 +8,17 @@ import android.widget.Toast
 import com.example.nurbekkabylbai.sch.R
 import com.example.nurbekkabylbai.sch.ResponseListener
 import com.example.nurbekkabylbai.sch.db.entity.Class
+import com.example.nurbekkabylbai.sch.ui.view.EventClickListener
 import java.util.*
 import devs.mulham.horizontalcalendar.HorizontalCalendar
 import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.collections.ArrayList
 
 /**
  * Created by Nurbek Kabylbay on 27.01.2018.
  */
-class MainActivity: AppCompatActivity(), ResponseListener {
+class MainActivity: AppCompatActivity(), ResponseListener, EventClickListener {
 
     private lateinit var viewModel: MainViewModel
 
@@ -27,8 +29,15 @@ class MainActivity: AppCompatActivity(), ResponseListener {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         viewModel.setListener(this)
 
+        schedule.setListener(this)
+
         setupCalendar()
     }
+
+    override fun onEventClicked(list: List<Class>) {
+        Toast.makeText(baseContext, "A class clicked", Toast.LENGTH_SHORT).show()
+    }
+
 
     override fun onResponseReceived(list: List<Class>?) {
         if(list == null)
@@ -62,6 +71,7 @@ class MainActivity: AppCompatActivity(), ResponseListener {
                 // TODO: make a request
                 val weekDay = date.get(Calendar.DAY_OF_WEEK)
                 viewModel.requestClasses(weekDay)
+                schedule.updateAndInvalidate(ArrayList()) // TODO: remove then
                 Toast.makeText(baseContext, "A date selected", Toast.LENGTH_SHORT).show()
             }
         }
