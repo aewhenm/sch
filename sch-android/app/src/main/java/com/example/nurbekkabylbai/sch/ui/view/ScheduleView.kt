@@ -213,6 +213,9 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
 
     private fun drawEvents(canvas: Canvas) {
         for(i in 0 until mTimeSlots.size) {
+            if(mTimeSlots[i].isEmpty())
+                continue
+
             val mEventRect = Rect()
             mEventRect.left = mTimeSeparatorStartX.toInt()
             mEventRect.right = mScreenWidth
@@ -221,7 +224,7 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
 
             mEventList.add(EventLayout(mEventRect, mTimeSlots[i]))
 
-            mEventPaint.color = if(mTimeSlots[i].size > 0) mBadColor else mOkColor
+            mEventPaint.color = if(mTimeSlots[i].size > 1) mBadColor else mOkColor
             mEventPaint.alpha = 170
 
             canvas.drawRect(mEventRect, mEventPaint)
@@ -243,7 +246,7 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
         list.add(Class(1,"0"))
         list.add(Class(2,"1"))
         list.add(Class(3,"2"))
-        list.add(Class(4,"2"))
+        list.add(Class(4,"6"))
 
         return list
     }
