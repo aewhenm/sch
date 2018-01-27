@@ -5,5 +5,5 @@ object Room {
                    id: String,
                    number: Int,
                    seatsNumber: String,
-                   roomType: String)
+                   isEquiped: Boolean)
 }

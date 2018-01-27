@@ -26,7 +26,7 @@ object Seeder {
     var list: ListBuffer[Room] = ListBuffer()
     for (x <- bufferedRooms.getLines()) {
       val s = x.split(";")
-      list += Room(s(0), s(1).toInt, s(2), s(3))
+      list += Room(s(0), s(1).toInt, s(2), s(3) == "true")
     }
     bufferedRooms.close()
     list.toList

@@ -55,7 +55,7 @@ class AerospikeImpl extends ScheduleTrait {
                             z.courseId,
                             z.hours,
                             z.groupId,
-                            z.equiped,
+                            z.isEquiped,
                             ((x._2 % (Constants.AMOUNT_OF_HOURS * availableRooms.size)) / 12).toString,
                             (x._2 % 11).toString))
     }).toList
