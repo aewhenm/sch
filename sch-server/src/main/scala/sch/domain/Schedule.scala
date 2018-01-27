@@ -61,6 +61,7 @@ class Schedule(dbProvider: ScheduleTrait) {
   }
 
   def calculateFitnessRate(): Float = {
+
     var totalScore: Int = 0
 
     for ((classReference, i) <- scheduleHash) {
@@ -80,9 +81,9 @@ class Schedule(dbProvider: ScheduleTrait) {
 
       val concreteTeacher = dbProvider.getTeacherById(classReference.teacherId)
       val numberOfDay = i / (Constants.WORK_DAYS * Constants.AMOUNT_OF_HOURS)
-      val startOfDay = i * Constants.WORK_DAYS * Constants.AMOUNT_OF_HOURS
+      val startOfDay = numberOfDay * (Constants.WORK_DAYS * Constants.AMOUNT_OF_HOURS)
       val endOfDay = startOfDay + Constants.WORK_DAYS * Constants.AMOUNT_OF_HOURS
-
+      println(startOfDay + " " + endOfDay)
       var visited: Map[ClassResponse, Int] = Map()
 
       var teacherOccuranceTime = 0
@@ -106,6 +107,7 @@ class Schedule(dbProvider: ScheduleTrait) {
     }
     val maxScore: Float = scheduleHash.size * 5
     val fitness: Float = totalScore / maxScore
+    println("Fitness Rate is: " + fitness)
     fitness
   }
 }

@@ -61,7 +61,7 @@ class AerospikeImpl extends ScheduleTrait {
     }).toList
   }
 
-  override def getAllClasses: List[sch.domain.Class.Class] = {
+  override def getAllClasses: List[sch.domain.Class.ClassResponse] = {
 
     generatedSchedules.head.timeSlots.filter(x => x.nonEmpty).flatten.toList
   }
@@ -82,10 +82,11 @@ class AerospikeImpl extends ScheduleTrait {
 
   def generateSchedules(): Unit = {
 
-    for (i <- 0 until 1) {
-      val schedule = new Schedule()
+    for (i <- 0 until 5) {
+      val schedule = new Schedule(this)
       availableClasses.foreach(schedule.addClass)
       generatedSchedules += schedule
+      schedule.calculateFitnessRate()
     }
   }
 
