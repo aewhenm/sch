@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="JournalView">
+        <attr name="backgroundColor" format="color" />
+        <attr name="separatorColor" format="color" />
+        <attr name="timeTextColor" format="color" />
+        <attr name="normalTimeSize" format="dimension" />
+        <attr name="accentTimeSize" format="dimension" />
+    </declare-styleable>
+</resources>
