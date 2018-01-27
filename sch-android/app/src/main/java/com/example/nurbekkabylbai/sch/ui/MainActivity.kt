@@ -28,6 +28,7 @@ class MainActivity: AppCompatActivity(), ResponseListener, EventClickListener {
 
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         viewModel.setListener(this)
+        viewModel.requestEntities()
 
         schedule.setListener(this)
 
