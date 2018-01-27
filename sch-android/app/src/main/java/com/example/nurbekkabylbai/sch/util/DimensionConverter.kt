@@ -7,8 +7,8 @@ import android.content.Context
  */
 object DimensionConverter {
 
-    fun pxToSp(px: Int, context: Context): Float {
-        return px / context.resources.displayMetrics.scaledDensity
+    fun spToPx(sp: Int, context: Context): Float {
+        return sp * context.resources.displayMetrics.scaledDensity
     }
 
     fun dpToPx(dp: Int, context: Context): Float {

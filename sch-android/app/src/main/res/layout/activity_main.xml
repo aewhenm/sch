@@ -20,7 +20,9 @@
 
         <com.example.nurbekkabylbai.sch.ui.view.ScheduleView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:accentTimeSize="16sp"
+            app:normalTimeSize="14sp"/>
 
     </ScrollView>
 </android.support.constraint.ConstraintLayout>
