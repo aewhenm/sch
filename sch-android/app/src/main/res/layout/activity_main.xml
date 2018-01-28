@@ -41,7 +41,7 @@
                 android:id="@+id/info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Course:Math Teacher:Mura"
+                android:text="Количество занятии: 0"
                 android:paddingTop="8dp"
                 android:background="@color/white"
                 android:paddingBottom="8dp"

@@ -54,7 +54,7 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
     private var m5minHeight = 0
 
 
-    private val mTimeSlots = Array<ArrayList<Class>>(12) { ArrayList() }
+    private val mTimeSlots = ArrayList<ArrayList<Class>>()
     private val mEventList = ArrayList<EventLayout>()
 
     // Event click handling
@@ -203,9 +203,9 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
     }
 
     private fun invalidateTimeSlots(list: ArrayList<Class>) {
-//        val list = getTestClasses() //TODO: remove then
-        for(i in 0 until mTimeSlots.size)
-            mTimeSlots[i] = ArrayList()
+        mTimeSlots.clear()
+        for(i in 0 until 12)
+            mTimeSlots.add(ArrayList())
 
         for(c in list) {
             mTimeSlots[c.startHour.toInt()].add(c)
@@ -238,18 +238,6 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
 
     private fun getEventBottom(index: Int): Int {
         return mViewPaddingTop + m5minHeight*(index+1) - 1
-    }
-
-    private fun getTestClasses(): ArrayList<Class> {
-        val list = ArrayList<Class>()
-
-        list.add(Class(0,"0"))
-        list.add(Class(1,"0"))
-        list.add(Class(2,"1"))
-        list.add(Class(3,"2"))
-        list.add(Class(4,"6"))
-
-        return list
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {

@@ -22,15 +22,12 @@ class ScheduleRepository {
     fun requestSchedule(weekDay: Int) {
 
         val call = ApiUtils.getScheduleService().requestSchedule(weekDay)
-//        val call = ApiUtils.getScheduleService().healthcheck()
 
         call.enqueue(object: Callback<List<Class>> {
             override fun onFailure(call: Call<List<Class>>?, t: Throwable?) {
-                System.out.println("lalka huialka: " + call)
             }
 
             override fun onResponse(call: Call<List<Class>>?, response: Response<List<Class>>) {
-                System.out.println("lalka:" + response.body())
                 listener?.onResponseReceived(response.body())
             }
         })

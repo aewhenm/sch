@@ -39,15 +39,18 @@ class MainActivity: AppCompatActivity(), ResponseListener, EventClickListener {
     }
 
     override fun onEventClicked(list: List<Class>) {
-        Toast.makeText(baseContext, "Количество занятии:" + list.size, Toast.LENGTH_SHORT).show()
         val intent = Intent(this, InfoActivity::class.java)
         intent.putExtra("list", list as Serializable)
         startActivity(intent)
     }
 
     override fun onResponseReceived(list: List<Class>?) {
-        if(list == null)
+        if(list == null) {
+            info.text = "Количество занятии: 0"
             return
+        }
+
+        info.text = "Количество занятии: " + list.size
 
         val arrayList = ArrayList<Class>()
         for(c in list)
@@ -76,9 +79,8 @@ class MainActivity: AppCompatActivity(), ResponseListener, EventClickListener {
             override fun onDateSelected(date: Calendar, position: Int) {
                 // TODO: make a request
                 val weekDay = date.get(Calendar.DAY_OF_WEEK)
-                viewModel.requestClasses(weekDay)
+                viewModel.requestClasses(weekDay-2)
                 schedule.updateAndInvalidate(ArrayList()) // TODO: remove then
-                Toast.makeText(baseContext, "A date selected", Toast.LENGTH_SHORT).show()
             }
         }
     }
