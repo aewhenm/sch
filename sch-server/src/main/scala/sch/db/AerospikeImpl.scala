@@ -26,6 +26,27 @@ class AerospikeImpl extends ScheduleTrait {
   var availableTeachers: List[Teacher] = List()
   var availableGroups: List[Group] = List()
 
+  override def getOptimizedSchedule: Schedule = {
+    var schedulesGenomes = generatedSchedules.map(schedule => schedule -> schedule.calculateFitnessRate())
+    schedulesGenomes = schedulesGenomes.sortWith(_._2 < _._2)
+
+    for (i <- 1 to 10) {
+      val firstGenome = schedulesGenomes(0)._1
+      val secondGenome = schedulesGenomes(1)._1
+      val thirdGenome = schedulesGenomes(2)._1
+      val firstNewGenome = firstGenome.mutate(secondGenome)
+      val secondNewGenome = secondGenome.mutate(thirdGenome)
+
+      schedulesGenomes += (firstNewGenome -> firstNewGenome.calculateFitnessRate())
+      schedulesGenomes += (secondNewGenome -> secondNewGenome.calculateFitnessRate())
+      schedulesGenomes = schedulesGenomes.sortWith(_._2 < _._2)
+      schedulesGenomes = schedulesGenomes.takeRight(4)
+    }
+    schedulesGenomes = schedulesGenomes.sortWith(_._2 > _._2)
+    println("Most optimized " + schedulesGenomes.head._2)
+    schedulesGenomes.head._1
+  }
+
   override def addTeacher(teacher: Teacher): Unit = {
 
     val key = new Key("test", "teacher", teacher.id)
@@ -86,7 +107,6 @@ class AerospikeImpl extends ScheduleTrait {
       val schedule = new Schedule(this)
       availableClasses.foreach(schedule.addClass)
       generatedSchedules += schedule
-      schedule.calculateFitnessRate()
     }
   }
 

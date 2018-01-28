@@ -3,6 +3,7 @@ package sch.services
 import sch.domain.Course.Course
 import sch.domain.Group.Group
 import sch.domain.Room.Room
+import sch.domain.Schedule
 import sch.domain.Teacher.Teacher
 
 trait ScheduleTrait {
@@ -20,4 +21,5 @@ trait ScheduleTrait {
   def getAllRooms: List[Room]
   def getCourseById(courseId: String): Course
   def getAllCourses: List[Course]
+  def getOptimizedSchedule: Schedule
 }

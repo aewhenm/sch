@@ -18,6 +18,8 @@ object SchBoot extends App {
   private val interface = "localhost"
   private val port = 8080
 
+  dbProvider.getOptimizedSchedule
+
   system.log.info("Server started at {}:{}", interface, port)
   Http().bindAndHandle(httpRoutes.routes, interface, port)
 }
