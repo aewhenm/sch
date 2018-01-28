@@ -20,6 +20,8 @@ class InfoRepository {
 
         call.enqueue(object: Callback<List<Teacher>> {
             override fun onFailure(call: Call<List<Teacher>>?, t: Throwable?) {
+                SchApp.database.TeacherDao()
+
             }
 
             override fun onResponse(call: Call<List<Teacher>>?, response: Response<List<Teacher>>) {
@@ -33,6 +35,7 @@ class InfoRepository {
         val call = ApiUtils.getCourseService().requestCourses()
         call.enqueue(object: Callback<List<Course>> {
             override fun onFailure(call: Call<List<Course>>?, t: Throwable?) {
+
             }
 
             override fun onResponse(call: Call<List<Course>>?, response: Response<List<Course>>) {

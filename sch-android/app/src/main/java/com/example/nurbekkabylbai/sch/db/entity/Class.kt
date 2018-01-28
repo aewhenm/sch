@@ -27,13 +27,17 @@ class Class() : Serializable {
     @Expose
     var groupId: String? = null
 
-    @SerializedName("equipped")
+    @SerializedName("isEquiped")
     @Expose
     var isEquipped: Boolean = false
 
     @SerializedName("startHour")
     @Expose
     lateinit var startHour: String
+
+    @SerializedName("roomId")
+    @Expose
+    lateinit var roomId: String
 
     constructor(classId: Int, startHour: String) : this() {
         this.classId = classId

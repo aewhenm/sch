@@ -203,7 +203,9 @@ class ScheduleView(context: Context, attrs: AttributeSet) : View(context, attrs)
     }
 
     private fun invalidateTimeSlots(list: ArrayList<Class>) {
-        val list = getTestClasses() //TODO: remove then
+//        val list = getTestClasses() //TODO: remove then
+        for(i in 0 until mTimeSlots.size)
+            mTimeSlots[i] = ArrayList()
 
         for(c in list) {
             mTimeSlots[c.startHour.toInt()].add(c)

@@ -39,7 +39,7 @@ class MainActivity: AppCompatActivity(), ResponseListener, EventClickListener {
     }
 
     override fun onEventClicked(list: List<Class>) {
-        Toast.makeText(baseContext, "A class clicked", Toast.LENGTH_SHORT).show()
+        Toast.makeText(baseContext, "Количество занятии:" + list.size, Toast.LENGTH_SHORT).show()
         val intent = Intent(this, InfoActivity::class.java)
         intent.putExtra("list", list as Serializable)
         startActivity(intent)
