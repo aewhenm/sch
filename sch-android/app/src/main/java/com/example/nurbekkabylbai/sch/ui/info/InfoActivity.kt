@@ -35,8 +35,9 @@ class InfoActivity: AppCompatActivity() {
                 val teacher = SchApp.database.TeacherDao().teacherById(c.teacherId!!)
                 val group = SchApp.database.GroupDao().groupById(c.groupId!!)
                 val room = SchApp.database.RoomDao().roomById(c.roomId)
+                val course = SchApp.database.CourseDao().courseById(c.courseId!!)
 
-                eventList.add(Event(teacher, group, room))
+                eventList.add(Event(teacher, group, room, course))
 
             }
 

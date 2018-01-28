@@ -31,6 +31,10 @@ class Class() : Serializable {
     @Expose
     var isEquipped: Boolean = false
 
+    @SerializedName("courseId")
+    @Expose
+    var courseId: String? = null
+
     @SerializedName("startHour")
     @Expose
     lateinit var startHour: String
