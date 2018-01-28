@@ -13,7 +13,7 @@ import com.example.nurbekkabylbai.sch.db.entity.Event
  * Created by Nurbek Kabylbay on 28.01.2018.
  */
 
-class ServiceAdapter(var eventList: ArrayList<Event>, internal var context: Context) : RecyclerView.Adapter<ServiceAdapter.ViewHolder>() {
+class InfoAdapter(var eventList: ArrayList<Event>, internal var context: Context) : RecyclerView.Adapter<InfoAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -25,9 +25,10 @@ class ServiceAdapter(var eventList: ArrayList<Event>, internal var context: Cont
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val event = eventList[position]
 
-        holder.teacher.text = event.teacher.name
-        holder.group.text = event.group.groupId + ":" + event.group.size
-        holder.room.text = event.room.roomId + ":" + event.room.seatsNumber
+        holder.teacher.text = "Преподователь: " + event.teacher.name
+        holder.group.text = "\nГруппа: " + event.group.groupId + ". Количество студентов " + event.group.size
+        holder.room.text = "\nКабинет: " + event.room.roomId + ". Вместимость " + event.room.seatsNumber +
+                ". Оборудован: " + if(event.room.isEquiped) "ДА" else "НЕТ"
     }
 
     override fun getItemCount(): Int {

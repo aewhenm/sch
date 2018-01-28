@@ -76,7 +76,7 @@
             app:accentTimeSize="16sp"
             app:normalTimeSize="14sp"
             app:okColor="#54CC14"
-            app:badColor="#FF0000"/>
+            app:badColor="#FFEB1D"/>
 
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>
