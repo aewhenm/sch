@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ScheduleView">
+        <attr name="backgroundColor" format="color" />
+        <attr name="timeTextColor" format="color" />
+        <attr name="normalTimeSize" format="dimension" />
+        <attr name="accentTimeSize" format="dimension" />
+        <attr name="okColor" format="color" />
+        <attr name="badColor" format="color" />
+    </declare-styleable>
+</resources>
