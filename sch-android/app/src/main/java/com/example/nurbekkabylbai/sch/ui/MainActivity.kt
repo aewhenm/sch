@@ -1,6 +1,7 @@
 package com.example.nurbekkabylbai.sch.ui
 
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -8,11 +9,13 @@ import android.widget.Toast
 import com.example.nurbekkabylbai.sch.R
 import com.example.nurbekkabylbai.sch.ResponseListener
 import com.example.nurbekkabylbai.sch.db.entity.Class
+import com.example.nurbekkabylbai.sch.ui.info.InfoActivity
 import com.example.nurbekkabylbai.sch.ui.view.EventClickListener
 import java.util.*
 import devs.mulham.horizontalcalendar.HorizontalCalendar
 import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.Serializable
 import kotlin.collections.ArrayList
 
 /**
@@ -37,8 +40,10 @@ class MainActivity: AppCompatActivity(), ResponseListener, EventClickListener {
 
     override fun onEventClicked(list: List<Class>) {
         Toast.makeText(baseContext, "A class clicked", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, InfoActivity::class.java)
+        intent.putExtra("list", list as Serializable)
+        startActivity(intent)
     }
-
 
     override fun onResponseReceived(list: List<Class>?) {
         if(list == null)

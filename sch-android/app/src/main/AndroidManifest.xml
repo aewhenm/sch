@@ -24,5 +24,6 @@
         </activity>
 
         <activity android:name=".ui.MainActivity" />
+        <activity android:name=".ui.info.InfoActivity" />
     </application>
 </manifest>

@@ -6,7 +6,7 @@ import android.arch.persistence.room.PrimaryKey
 /**
  * Created by Nurbek Kabylbay on 27.01.2018.
  */
-@Entity
+@Entity(tableName = "mGroup")
 class Group {
 
     @PrimaryKey
