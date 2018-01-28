@@ -5,5 +5,5 @@ object Constants {
   val END_TIME = 11  // 21:00
   val AMOUNT_OF_HOURS = 12
   val WORK_DAYS = 5
-  val NUMBER_OF_ROOMS = 5
+  val NUMBER_OF_ROOMS = 23
 }
