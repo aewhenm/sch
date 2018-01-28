@@ -83,7 +83,6 @@ class Schedule(dbProvider: ScheduleTrait) {
       val numberOfDay = i / (Constants.WORK_DAYS * Constants.AMOUNT_OF_HOURS)
       val startOfDay = numberOfDay * (Constants.WORK_DAYS * Constants.AMOUNT_OF_HOURS)
       val endOfDay = startOfDay + Constants.WORK_DAYS * Constants.AMOUNT_OF_HOURS
-      println(startOfDay + " " + endOfDay)
       var visited: Map[ClassResponse, Int] = Map()
 
       var teacherOccuranceTime = 0

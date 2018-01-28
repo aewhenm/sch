@@ -15,7 +15,7 @@ object SchBoot extends App {
   dbProvider.seedData()
   dbProvider.generateSchedules()
 
-  private val interface = "localhost"
+  private val interface = "10.42.0.1"
   private val port = 8080
 
   dbProvider.getOptimizedSchedule

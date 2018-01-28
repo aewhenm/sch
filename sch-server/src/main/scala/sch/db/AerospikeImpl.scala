@@ -25,15 +25,16 @@ class AerospikeImpl extends ScheduleTrait {
   var availableCourses: List[Course] = List()
   var availableTeachers: List[Teacher] = List()
   var availableGroups: List[Group] = List()
+  var optimizedSchedule: Schedule = new Schedule(this)
 
   override def getOptimizedSchedule: Schedule = {
     var schedulesGenomes = generatedSchedules.map(schedule => schedule -> schedule.calculateFitnessRate())
     schedulesGenomes = schedulesGenomes.sortWith(_._2 < _._2)
 
-    for (i <- 1 to 10) {
+    for (i <- 1 to 100) {
       val firstGenome = schedulesGenomes(0)._1
       val secondGenome = schedulesGenomes(1)._1
-      val thirdGenome = schedulesGenomes(2)._1
+      val thirdGenome = schedulesGenomes(3)._1
       val firstNewGenome = firstGenome.mutate(secondGenome)
       val secondNewGenome = secondGenome.mutate(thirdGenome)
 
@@ -44,6 +45,7 @@ class AerospikeImpl extends ScheduleTrait {
     }
     schedulesGenomes = schedulesGenomes.sortWith(_._2 > _._2)
     println("Most optimized " + schedulesGenomes.head._2)
+    optimizedSchedule = schedulesGenomes.head._1
     schedulesGenomes.head._1
   }
 
@@ -68,7 +70,7 @@ class AerospikeImpl extends ScheduleTrait {
 
   override def getClassesByDay(weekDay: Int): List[sch.domain.Class.ClassResponse] = {
 
-    generatedSchedules.head.timeSlots
+    optimizedSchedule.timeSlots
       .zipWithIndex
       .filter(x => isPreferedDay(x._2, weekDay)).flatMap(x => {
       x._1.map(z => ClassResponse(
