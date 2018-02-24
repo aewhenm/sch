@@ -1,0 +1,8 @@
+1;Nurbek
+2;Artur
+3;Almat
+4;Zhandos
+5;Nurdaulet
+6;Balganym
+7;Mariyam
+8;Arlan
